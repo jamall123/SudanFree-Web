@@ -37,7 +37,7 @@ import '../../core/utils/job_titles_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../services/storage_service.dart';
 import '../../core/constants/sudan_locations.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import '../../views/common/image_viewer_screen.dart';
 import '../../providers/locale_provider.dart';
 import '../../providers/auth_provider.dart';

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/post_model.dart';
@@ -323,7 +323,7 @@ class PostsProvider extends ChangeNotifier {
           throw Exception("لا يوجد اتصال بالإنترنت، لا يمكن رفع الصورة الآن");
         }
         // Upload all images in parallel
-        final futures = filesToUpload.map((f) => uploadPostImage(f));
+        final futures = filesToUpload.map((f) => uploadPostImage(f, userId));
         final results = await Future.wait(futures);
         for (final url in results) {
           if (url == null) {

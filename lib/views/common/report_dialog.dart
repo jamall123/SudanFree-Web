@@ -10,7 +10,7 @@ import '../../models/notification_model.dart';
 import '../../services/firestore_service.dart';
 import '../../services/cloudinary_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../widgets/buttons/primary_button.dart';

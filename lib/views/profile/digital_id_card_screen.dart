@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../models/user_model.dart';

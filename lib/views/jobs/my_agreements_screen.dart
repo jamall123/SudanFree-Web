@@ -150,6 +150,7 @@ class _MyAgreementsScreenState extends State<MyAgreementsScreen>
           );
         },
       ),
+     ),
     );
   }
 
@@ -186,7 +187,7 @@ class _MyAgreementsScreenState extends State<MyAgreementsScreen>
 
         return GlassCard(
           margin: const EdgeInsets.only(bottom: 12),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: 16.0,
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
             onTap: () {
@@ -300,7 +301,7 @@ class _MyAgreementsScreenState extends State<MyAgreementsScreen>
       itemBuilder: (context, index) {
         return GlassCard(
           margin: const EdgeInsets.only(bottom: 12),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: 16.0,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Shimmer.fromColors(

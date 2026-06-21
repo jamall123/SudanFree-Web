@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_file/open_file.dart';

@@ -9,7 +9,7 @@ import '../../providers/locale_provider.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/sudan_locations.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import '../../services/storage_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

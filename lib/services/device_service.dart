@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';

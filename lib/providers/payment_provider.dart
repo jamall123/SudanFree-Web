@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/payment_model.dart';
 import '../services/firestore_service.dart';
 import '../services/storage_service.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'dart:async';
 
 class PaymentProvider extends ChangeNotifier {

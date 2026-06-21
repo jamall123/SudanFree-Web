@@ -4,7 +4,7 @@ import '../models/proposal_model.dart';
 import '../services/firestore_service.dart';
 import '../services/storage_service.dart';
 import '../services/cache_service.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/notification_model.dart';

@@ -10,7 +10,7 @@ import '../views/profile/shop_profile_screen.dart';
 import '../views/requests/request_details_screen.dart';
 import '../views/jobs/active_job_tracking_screen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 
 class ErrorService {
   static final ErrorService _instance = ErrorService._internal();

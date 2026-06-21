@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/firestore_service.dart';
 import '../services/storage_service.dart';
 import '../utils/chat_utils.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'dart:async';
 
 class ChatProvider extends ChangeNotifier {

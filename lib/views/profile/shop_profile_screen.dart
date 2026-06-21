@@ -40,7 +40,7 @@ import '../../providers/locale_provider.dart';
 import '../../models/review_model.dart';
 import '../../core/utils/app_error_handler.dart';
 import 'package:share_plus/share_plus.dart';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'favorites_screen.dart';
 import '../../services/smart_guide_service.dart';
 import '../../widgets/common/glass_container.dart';
