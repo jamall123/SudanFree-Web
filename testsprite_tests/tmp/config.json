@@ -1,0 +1,17 @@
+{
+  "status": "init",
+  "scope": "codebase",
+  "type": "backend",
+  "localEndpoint": "http://localhost:5001/",
+  "serverPort": 40475,
+  "executionArgs": {
+    "projectName": "sudan_free",
+    "projectPath": "/home/jamal/Projects/SUDAN-App/sudan_free",
+    "testIds": [],
+    "additionalInstruction": "Focus on critical flows: user authentication, job posting, and proposal submission. Ensure Firestore interactions are verified.",
+    "envs": {
+      "API_KEY": "sk-user-S7qPQ-sqSZtsap7KiYmpk3puutXSG0i7KDYftXH-RHNn8PcdmtVDTqFiH_gu4QkMtthjl2PEH-ajq0E5TtHyOm8g9iJtfq_RjwieKQ4t-rWZM04zpgtXuOHU3LDRN7zoQuA"
+    }
+  },
+  "proxy": "http://48ce23ae-8528-4edf-ae03-39d2bcf8e5a9:O3qMw6MTDQQgTdcM3prDwoWaHa76MCHy@tun.testsprite.com:8080"
+}

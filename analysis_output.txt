@@ -1,0 +1,79 @@
+Analyzing sudan_free...                                         
+
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/constants/app_colors.dart:96:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/constants/app_colors.dart:97:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/constants/app_colors.dart:98:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/constants/app_colors.dart:122:27 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/constants/app_colors.dart:130:27 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/constants/app_colors.dart:138:27 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/core/theme/app_theme.dart:212:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/about/about_app_screen.dart:33:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/about/about_app_screen.dart:151:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/about/about_app_screen.dart:165:36 • deprecated_member_use
+  error • The name 'PrivacyPolicyScreen' isn't a class • lib/views/auth/login_screen.dart:260:65 • creation_with_non_type
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/chat/chat_list_screen.dart:61:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/common/image_viewer_screen.dart:33:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/common/report_dialog.dart:149:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/freelancers/browse_freelancers_screen.dart:86:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/freelancers/browse_freelancers_screen.dart:126:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/freelancers/browse_freelancers_screen.dart:161:70 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/freelancers/browse_freelancers_screen.dart:267:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/freelancers/freelancer_profile_screen.dart:101:67 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/freelancers/freelancer_profile_screen.dart:161:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/freelancers/freelancer_profile_screen.dart:256:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/freelancers/freelancer_profile_screen.dart:335:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/home/home_screen.dart:125:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/jobs/job_details_screen.dart:51:54 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/jobs/job_details_screen.dart:82:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/jobs/job_details_screen.dart:196:36 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/jobs/job_details_screen.dart:276:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/jobs/submit_proposal_screen.dart:80:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/notifications/notifications_screen.dart:47:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/notifications/notifications_screen.dart:147:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/notifications/notifications_screen.dart:150:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/notifications/notifications_screen.dart:154:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/notifications/notifications_screen.dart:156:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/notifications/notifications_screen.dart:157:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/notifications/notifications_screen.dart:167:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/onboarding/onboarding_screen.dart:91:54 • deprecated_member_use
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/views/posts/create_post_screen.dart:182:23 • deprecated_member_use
+warning • The declaration '_SliverTabBarDelegate' isn't referenced • lib/views/profile/profile_screen.dart:813:7 • unused_element
+warning • A value for optional parameter 'topPadding' isn't ever given • lib/views/profile/profile_screen.dart:817:44 • unused_element_parameter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/profile/profile_screen.dart:826:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/profile/profile_screen.dart:887:75 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/profile/profile_screen.dart:897:76 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/profile/profile_screen.dart:985:81 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/safety/safety_tips_screen.dart:27:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/safety/safety_tips_screen.dart:136:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/safety/safety_tips_screen.dart:138:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/safety/safety_tips_screen.dart:194:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/safety/safety_tips_screen.dart:234:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/safety/safety_tips_screen.dart:246:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/settings/about_app_screen.dart:32:42 • deprecated_member_use
+warning • The declaration '_buildBulletPoint' isn't referenced • lib/views/settings/about_app_screen.dart:109:10 • unused_element
+warning • Unused import: '../auth/profile_setup_screen.dart' • lib/views/settings/settings_screen.dart:13:8 • unused_import
+   info • 'Share' is deprecated and shouldn't be used. Use SharePlus instead • lib/views/settings/settings_screen.dart:196:15 • deprecated_member_use
+   info • 'share' is deprecated and shouldn't be used. Use SharePlus.instance.share() instead • lib/views/settings/settings_screen.dart:196:21 • deprecated_member_use
+  error • The argument type 'bool' can't be assigned to the parameter type 'BoxBorder?'.  • lib/widgets/cards/freelancer_card.dart:131:17 • argument_type_not_assignable
+  error • Expected to find ',' • lib/widgets/cards/freelancer_card.dart:132:17 • expected_token
+  error • The argument for the named parameter 'color' was already specified • lib/widgets/cards/freelancer_card.dart:132:17 • duplicate_named_argument
+  error • The named parameter 'width' isn't defined • lib/widgets/cards/freelancer_card.dart:132:68 • undefined_named_parameter
+  error • Expected to find ')' • lib/widgets/cards/freelancer_card.dart:133:13 • expected_token
+  error • Expected to find ';' • lib/widgets/cards/freelancer_card.dart:144:7 • expected_token
+warning • Dead code • lib/widgets/cards/freelancer_card.dart:144:8 • dead_code
+  error • Expected an identifier • lib/widgets/cards/freelancer_card.dart:144:8 • missing_identifier
+  error • Unexpected text ';' • lib/widgets/cards/freelancer_card.dart:144:8 • unexpected_token
+warning • The label 'child' isn't used • lib/widgets/cards/freelancer_card.dart:145:7 • unused_label
+  error • Expected to find ';' • lib/widgets/cards/freelancer_card.dart:312:7 • expected_token
+  error • Expected an identifier • lib/widgets/cards/freelancer_card.dart:312:8 • missing_identifier
+  error • Expected to find ';' • lib/widgets/cards/freelancer_card.dart:312:8 • expected_token
+  error • Unexpected text ';' • lib/widgets/cards/freelancer_card.dart:312:8 • unexpected_token
+  error • Expected an identifier • lib/widgets/cards/freelancer_card.dart:313:5 • missing_identifier
+  error • Unexpected text ';' • lib/widgets/cards/freelancer_card.dart:313:5 • unexpected_token
+   info • Unnecessary empty statement • lib/widgets/cards/freelancer_card.dart:313:6 • empty_statements
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/cards/job_card.dart:37:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/cards/job_card.dart:183:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/cards/job_card.dart:201:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/common/loading_widget.dart:278:63 • deprecated_member_use
+
+75 issues found. (ran in 19.3s)

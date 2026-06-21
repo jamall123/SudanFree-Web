@@ -1,0 +1,10 @@
+Analyzing sudan_free...                                         
+
+warning • Unused import: '../../models/comment_model.dart' • lib/views/posts/post_details_screen.dart:6:8 • unused_import
+warning • Unused import: '../../services/firestore_service.dart' • lib/views/posts/post_details_screen.dart:9:8 • unused_import
+warning • Unused import: '../../models/notification_model.dart' • lib/views/posts/post_details_screen.dart:12:8 • unused_import
+warning • Unused import: 'package:cloud_firestore/cloud_firestore.dart' • lib/views/posts/post_details_screen.dart:13:8 • unused_import
+warning • The value of the field '_parentId' isn't used • lib/views/posts/post_details_screen.dart:38:11 • unused_field
+warning • The value of the field '_replyingToName' isn't used • lib/views/posts/post_details_screen.dart:39:11 • unused_field
+warning • The declaration '_cancelReply' isn't referenced • lib/views/posts/post_details_screen.dart:156:8 • unused_element
+

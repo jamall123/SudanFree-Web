@@ -1,0 +1,80 @@
+Analyzing sudan_free...                                         
+
+  error • The class '_PostDetailsScreenState' doesn't have an unnamed constructor • lib/views/posts/post_details_screen.dart:21:45 • new_with_undefined_constructor_default
+  error • Missing concrete implementation of 'abstract class State<T extends StatefulWidget> with Diagnosticable.build' • lib/views/posts/post_details_screen.dart:24:7 • non_abstract_class_inherits_abstract_member
+warning • The declaration '_getTimeAgo' isn't referenced • lib/views/posts/post_details_screen.dart:25:10 • unused_element
+warning • The value of the field '_parentId' isn't used • lib/views/posts/post_details_screen.dart:38:11 • unused_field
+warning • The value of the field '_replyingToName' isn't used • lib/views/posts/post_details_screen.dart:39:11 • unused_field
+   info • The private field _filteredPartners could be 'final' • lib/views/posts/post_details_screen.dart:42:19 • prefer_final_fields
+   info • The private field _showMentions could be 'final' • lib/views/posts/post_details_screen.dart:43:8 • prefer_final_fields
+   info • The private field _mentionStart could be 'final' • lib/views/posts/post_details_screen.dart:44:7 • prefer_final_fields
+  error • Methods must have an explicit list of parameters • lib/views/posts/post_details_screen.dart:49:5 • missing_method_parameters
+  error • The name of a constructor must match the name of the enclosing class • lib/views/posts/post_details_screen.dart:49:5 • invalid_constructor_name
+warning • The declaration '_PostDetailsScreenState.instance' isn't referenced • lib/views/posts/post_details_screen.dart:49:20 • unused_element
+   info • Empty constructor bodies should be written using a ';' rather than '{}' • lib/views/posts/post_details_screen.dart:49:28 • empty_constructor_bodies
+  error • A function body must be provided • lib/views/posts/post_details_screen.dart:49:28 • missing_function_body
+  error • Expected a class member • lib/views/posts/post_details_screen.dart:49:28 • expected_class_member
+  error • 'addPostFrameCallback' must have a method body because '_PostDetailsScreenState' isn't abstract • lib/views/posts/post_details_screen.dart:49:29 • concrete_class_with_abstract_member
+   info • Use the generic function type syntax to declare the parameter '' • lib/views/posts/post_details_screen.dart:49:50 • use_function_type_syntax_for_parameters
+  error • Expected an identifier • lib/views/posts/post_details_screen.dart:49:50 • missing_identifier
+  error • Expected to find ')' • lib/views/posts/post_details_screen.dart:49:54 • expected_token
+  error • The name of a constructor must match the name of the enclosing class • lib/views/posts/post_details_screen.dart:52:5 • invalid_constructor_name
+warning • The declaration '_PostDetailsScreenState.addListener' isn't referenced • lib/views/posts/post_details_screen.dart:52:24 • unused_element
+   info • The local variable '_onTextChanged' starts with an underscore • lib/views/posts/post_details_screen.dart:52:36 • no_leading_underscores_for_local_identifiers
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:57:5 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:58:5 • undefined_identifier
+  error • Undefined name '_commentFocusNode' • lib/views/posts/post_details_screen.dart:59:5 • undefined_identifier
+  error • Invalid context for 'super' invocation • lib/views/posts/post_details_screen.dart:60:5 • super_in_invalid_context
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:64:18 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:65:23 • undefined_identifier
+  error • Undefined name '_showMentions' • lib/views/posts/post_details_screen.dart:78:14 • undefined_identifier
+  error • The function 'setState' isn't defined • lib/views/posts/post_details_screen.dart:78:29 • undefined_function
+  error • Undefined name '_showMentions' • lib/views/posts/post_details_screen.dart:78:44 • undefined_identifier
+  error • Undefined name 'context' • lib/views/posts/post_details_screen.dart:82:24 • undefined_identifier
+  error • The function 'setState' isn't defined • lib/views/posts/post_details_screen.dart:86:9 • undefined_function
+  error • Undefined name '_filteredPartners' • lib/views/posts/post_details_screen.dart:87:11 • undefined_identifier
+  error • Undefined name '_showMentions' • lib/views/posts/post_details_screen.dart:88:11 • undefined_identifier
+  error • Undefined name '_mentionStart' • lib/views/posts/post_details_screen.dart:89:11 • undefined_identifier
+  error • The function 'setState' isn't defined • lib/views/posts/post_details_screen.dart:92:9 • undefined_function
+  error • Undefined name '_showMentions' • lib/views/posts/post_details_screen.dart:92:24 • undefined_identifier
+  error • Undefined name '_showMentions' • lib/views/posts/post_details_screen.dart:95:11 • undefined_identifier
+  error • The function 'setState' isn't defined • lib/views/posts/post_details_screen.dart:95:26 • undefined_function
+  error • Undefined name '_showMentions' • lib/views/posts/post_details_screen.dart:95:41 • undefined_identifier
+  error • Undefined name '_mentionStart' • lib/views/posts/post_details_screen.dart:100:10 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:102:19 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:103:24 • undefined_identifier
+  error • Undefined name '_mentionStart' • lib/views/posts/post_details_screen.dart:108:20 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:113:8 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:114:8 • undefined_identifier
+  error • Undefined name '_mentionedUsers' • lib/views/posts/post_details_screen.dart:116:8 • undefined_identifier
+  error • The function 'setState' isn't defined • lib/views/posts/post_details_screen.dart:117:8 • undefined_function
+  error • Undefined name '_showMentions' • lib/views/posts/post_details_screen.dart:117:23 • undefined_identifier
+  error • Undefined name '_mentionStart' • lib/views/posts/post_details_screen.dart:123:9 • undefined_identifier
+  error • Undefined name 'context' • lib/views/posts/post_details_screen.dart:125:22 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:128:18 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:129:23 • undefined_identifier
+  error • Undefined name '_mentionStart' • lib/views/posts/post_details_screen.dart:131:19 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:138:7 • undefined_identifier
+  error • Undefined name '_commentController' • lib/views/posts/post_details_screen.dart:139:7 • undefined_identifier
+  error • Undefined name '_mentionedUsers' • lib/views/posts/post_details_screen.dart:145:9 • undefined_identifier
+  error • The function 'setState' isn't defined • lib/views/posts/post_details_screen.dart:148:7 • undefined_function
+  error • Undefined name '_showMentions' • lib/views/posts/post_details_screen.dart:148:22 • undefined_identifier
+warning • The declaration '_cancelReply' isn't referenced • lib/views/posts/post_details_screen.dart:154:8 • unused_element
+  error • The function 'setState' isn't defined • lib/views/posts/post_details_screen.dart:155:5 • undefined_function
+  error • Undefined name '_parentId' • lib/views/posts/post_details_screen.dart:156:7 • undefined_identifier
+  error • Undefined name '_replyingToName' • lib/views/posts/post_details_screen.dart:157:7 • undefined_identifier
+  error • The function '_getTimeAgo' isn't defined • lib/views/posts/post_details_screen.dart:171:15 • undefined_function
+  error • Undefined name 'widget' • lib/views/posts/post_details_screen.dart:171:27 • undefined_identifier
+  error • Undefined name 'widget' • lib/views/posts/post_details_screen.dart:195:27 • undefined_identifier
+  error • Undefined name 'widget' • lib/views/posts/post_details_screen.dart:197:32 • undefined_identifier
+  error • Undefined name 'widget' • lib/views/posts/post_details_screen.dart:199:39 • undefined_identifier
+  error • Undefined name 'widget' • lib/views/posts/post_details_screen.dart:211:27 • undefined_identifier
+  error • Undefined name 'widget' • lib/views/posts/post_details_screen.dart:211:58 • undefined_identifier
+  error • Undefined name 'widget' • lib/views/posts/post_details_screen.dart:215:29 • undefined_identifier
+  error • Undefined name 'widget' • lib/views/posts/post_details_screen.dart:227:37 • undefined_identifier
+  error • Undefined name 'widget' • lib/views/posts/post_details_screen.dart:231:37 • undefined_identifier
+  error • Undefined name '_showMentions' • lib/views/posts/post_details_screen.dart:246:15 • undefined_identifier
+  error • Undefined name '_filteredPartners' • lib/views/posts/post_details_screen.dart:252:27 • undefined_identifier
+  error • Undefined name '_filteredPartners' • lib/views/posts/post_details_screen.dart:254:30 • undefined_identifier
+  error • Expected a method, getter, setter or operator declaration • lib/views/posts/post_details_screen.dart:263:1 • expected_executable
+

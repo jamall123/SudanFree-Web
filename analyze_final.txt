@@ -1,0 +1,64 @@
+Analyzing sudan_free...                                         
+
+   info • Unnecessary 'this.' qualifier • lib/models/job_model.dart:252:35 • unnecessary_this
+   info • Unnecessary 'this.' qualifier • lib/models/user_model.dart:369:23 • unnecessary_this
+   info • The parameter name 'sum' matches a visible type name • lib/providers/chat_provider.dart:34:28 • avoid_types_as_parameter_names
+warning • The value of the field '_filterMinBudget' isn't used • lib/providers/job_provider.dart:28:11 • unused_field
+warning • The value of the field '_filterMaxBudget' isn't used • lib/providers/job_provider.dart:29:11 • unused_field
+warning • The declaration '_listenForNewPosts' isn't referenced • lib/providers/posts_provider.dart:148:8 • unused_element
+warning • The operand can't be 'null', so the condition is always 'true' • lib/providers/user_provider.dart:318:15 • unnecessary_null_comparison
+   info • Don't invoke 'print' in production code • lib/services/firestore/ad_service.dart:56:7 • avoid_print
+   info • Use interpolation to compose strings and values • lib/services/firestore/post_service.dart:153:148 • prefer_interpolation_to_compose_strings
+   info • Statements in a for should be enclosed in a block • lib/services/firestore/user_service.dart:267:37 • curly_braces_in_flow_control_structures
+   info • 'WillPopScope' is deprecated and shouldn't be used. Use PopScope instead. The Android predictive back feature will not work with WillPopScope. This feature was deprecated after v3.12.0-1.0.pre • lib/services/update_service.dart:56:16 • deprecated_member_use
+   info • Don't use 'BuildContext's across async gaps • lib/views/auth/identity_verification_screen.dart:68:21 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/auth/identity_verification_screen.dart:69:28 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/auth/identity_verification_screen.dart:80:13 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/auth/identity_verification_screen.dart:152:28 • use_build_context_synchronously
+  error • Undefined name 'theme' • lib/views/auth/identity_verification_screen.dart:346:22 • undefined_identifier
+  error • Undefined name 'theme' • lib/views/auth/identity_verification_screen.dart:347:24 • undefined_identifier
+  error • Undefined name 'theme' • lib/views/auth/identity_verification_screen.dart:409:53 • undefined_identifier
+  error • Undefined name 'theme' • lib/views/auth/identity_verification_screen.dart:442:20 • undefined_identifier
+  error • Undefined name 'theme' • lib/views/auth/identity_verification_screen.dart:443:22 • undefined_identifier
+warning • Unused import: '../../services/firestore_service.dart' • lib/views/auth/profile_setup_screen.dart:15:8 • unused_import
+   info • Don't use 'BuildContext's across async gaps • lib/views/chat/chat_screen.dart:113:20 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/chat/chat_screen.dart:119:13 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/chat/chat_screen.dart:180:22 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/chat/chat_screen.dart:186:15 • use_build_context_synchronously
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/chat/chat_screen.dart:292:33 • deprecated_member_use
+   info • Don't use 'BuildContext's across async gaps • lib/views/chat/chat_screen.dart:663:31 • use_build_context_synchronously
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/chat/chat_screen.dart:876:40 • deprecated_member_use
+   info • Don't use 'BuildContext's across async gaps • lib/views/common/report_dialog.dart:70:9 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/common/report_dialog.dart:74:24 • use_build_context_synchronously
+   info • The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' • lib/views/common/splash_screen.dart:1:8 • unnecessary_import
+warning • The value of the field '_rightHandRotation' isn't used • lib/views/common/splash_screen.dart:17:26 • unused_field
+warning • The value of the field '_leftHandRotation' isn't used • lib/views/common/splash_screen.dart:18:26 • unused_field
+warning • The value of the field '_rightHandY' isn't used • lib/views/common/splash_screen.dart:19:26 • unused_field
+warning • The value of the field '_leftHandY' isn't used • lib/views/common/splash_screen.dart:20:26 • unused_field
+warning • The value of the field '_shakeAnimation' isn't used • lib/views/common/splash_screen.dart:22:26 • unused_field
+warning • The value of the field '_vibrationAnimation' isn't used • lib/views/common/splash_screen.dart:23:26 • unused_field
+warning • The value of the field '_glowAnimation' isn't used • lib/views/common/splash_screen.dart:24:26 • unused_field
+   info • Don't use 'BuildContext's across async gaps • lib/views/posts/create_post_screen.dart:186:30 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/posts/create_post_screen.dart:188:27 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/posts/create_post_screen.dart:266:9 • use_build_context_synchronously
+warning • The value of the field '_isLoadingAd' isn't used • lib/views/posts/posts_feed_screen.dart:40:8 • unused_field
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/profile/create_portfolio_project_screen.dart:241:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/profile/create_portfolio_project_screen.dart:243:71 • deprecated_member_use
+warning • Unused import: '../../widgets/buttons/primary_button.dart' • lib/views/profile/freelancer_profile_screen.dart:21:8 • unused_import
+   info • Don't use 'BuildContext's across async gaps • lib/views/profile/freelancer_profile_screen.dart:597:42 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/views/profile/freelancer_profile_screen.dart:807:34 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/profile/freelancer_profile_screen.dart:1012:28 • use_build_context_synchronously
+warning • The declaration '_showAddProjectDialog' isn't referenced • lib/views/profile/freelancer_profile_screen.dart:1130:8 • unused_element
+   info • Don't use 'BuildContext's across async gaps • lib/views/profile/shop_profile_screen.dart:399:70 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/profile/shop_profile_screen.dart:535:42 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/profile/shop_profile_screen.dart:800:34 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/views/requests/request_details_screen.dart:752:42 • use_build_context_synchronously
+   info • Parameter 'key' could be a super parameter • lib/views/widgets/ad_widget.dart:9:9 • use_super_parameters
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/views/widgets/ad_widget.dart:25:32 • deprecated_member_use
+   info • Use the '??' operator rather than '?:' when testing for 'null' • lib/widgets/cards/post_card.dart:419:24 • prefer_if_null_operators
+   info • Parameter 'key' could be a super parameter • lib/widgets/cards/post_card.dart:603:9 • use_super_parameters
+   info • Parameter 'key' could be a super parameter • lib/widgets/common/connectivity_wrapper.dart:11:9 • use_super_parameters
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/common/image_carousel.dart:84:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/common/image_carousel.dart:114:45 • deprecated_member_use
+
+60 issues found. (ran in 14.1s)

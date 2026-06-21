@@ -1,0 +1,406 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ─── Helper Functions ───────────────────────────────────────
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // ─── Data Validation Helpers ────────────────────────────────
+    function isValidString(field, maxLen) {
+      return field is string && field.size() <= maxLen;
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+
+    // ═══════════════════ المستخدمين (Users) ═══════════════════
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if isOwner(userId) &&
+        hasRequiredFields(['name', 'role']) &&
+        isValidString(request.resource.data.name, 100) &&
+        isValidString(request.resource.data.role, 30) &&
+        request.resource.data.role != 'admin';
+      allow update: if isAuthenticated() && (
+        // المالك يعدل بياناته — لا يمكنه تغيير الحقول المحمية
+        (isOwner(userId) && (
+          (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['isVerified', 'rating', 'reviewsCount', 'completedJobs', 'negativeReports', 'walletBalance', 'ratingCounts', 'profileViews']))
+          && (!('role' in request.resource.data) || request.resource.data.role != 'admin')
+          ||
+          // السماح بالتحقق الذاتي عبر رقم الهاتف
+          (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isVerified', 'updatedAt']) && request.resource.data.isVerified == true && request.auth.token.phone_number != null)
+        ))
+        || 
+        // مستخدمون آخرون يعدلون فقط حقول التفاعل (بدون profileViews — يتم عبر transaction)
+        (!isOwner(userId) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['rating', 'reviewsCount', 'completedJobs', 'negativeReports', 'ratingCounts', 'updatedAt', 'profileViews', 'dailyProfileViews', 'lastViewReset', 'viewers', 'pendingPartnerIds', 'partnerIds', 'followers', 'pendingApprenticeRequests', 'pendingMasterRequests', 'pendingLeaveRequests', 'apprenticesIds', 'masterId', 'vouchedBy', 'following', 'pendingSquadInvites']))
+        ||
+        // المشرف يعدل أي شيء
+        isAdmin()
+      );
+      allow delete: if isOwner(userId) || isAdmin();
+
+      // عداد الزيارات الفريدة
+      match /views/{visitorId} {
+        allow read: if isAuthenticated();
+        allow create, update: if isAuthenticated() && request.auth.uid == visitorId;
+      }
+      
+      // إعدادات المستخدم الشخصية
+      match /settings/{settingId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // ═══ معرض الأعمال (Portfolio subcollection) ═══
+      match /portfolio/{itemId} {
+        allow read: if true;
+        allow create: if isAuthenticated() && (
+          request.auth.uid == userId ||
+          exists(/databases/$(database)/documents/squads/$(userId)) && get(/databases/$(database)/documents/squads/$(userId)).data.leaderId == request.auth.uid
+        );
+        allow update, delete: if isAuthenticated() && (
+          request.auth.uid == userId ||
+          exists(/databases/$(database)/documents/squads/$(userId)) && get(/databases/$(database)/documents/squads/$(userId)).data.leaderId == request.auth.uid ||
+          isAdmin()
+        );
+      }
+
+      // ═══ تأييدات المهارات (Endorsements subcollection) ═══
+      match /endorsements/{endorsementId} {
+        allow read: if true;
+        allow create: if isAuthenticated() && 
+          request.auth.uid == request.resource.data.endorserId &&
+          request.auth.uid != userId; // لا يمكن للمستخدم تأييد نفسه
+        allow update, delete: if isAuthenticated() && (request.auth.uid == resource.data.endorserId || isAdmin());
+      }
+    }
+    
+    // ═══════════════════ المنشورات (Posts) ═══════════════════
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid &&
+        isValidString(request.resource.data.caption, 5000);
+      allow update: if isAuthenticated() && (
+        isOwner(resource.data.userId) || 
+        // السماح بتحديث حقول التفاعل فقط لغير المالك
+        // ملاحظة: poll يتم تحديثه عبر voteInPoll في الكود — نسمح به هنا
+        // isPinned محمي — فقط المالك يمكنه تثبيت منشوره
+        // viewsCount يتم عبر transaction في الكود
+        (!isOwner(resource.data.userId) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'commentsCount', 'likesCount', 'sharesCount', 'viewsCount', 'poll', 'updatedAt'])) ||
+        isAdmin()
+      );
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+
+      // التعليقات كـ subcollection
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if isAuthenticated() && 
+          request.resource.data.userId == request.auth.uid &&
+          isValidString(request.resource.data.content, 2000);
+        allow update: if isAuthenticated() && (
+          resource.data.userId == request.auth.uid ||
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likedBy'])
+        );
+        allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      }
+      
+      // عداد الزيارات الفريدة للمنشور/المنتج
+      match /views/{visitorId} {
+        allow read: if isAuthenticated();
+        allow create, update: if isAuthenticated() && request.auth.uid == visitorId;
+      }
+    }
+
+    // ═══════════════════ التعليقات — collectionGroup (للاستعلامات الشاملة) ═══════════════════
+    match /{path=**}/comments/{commentId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid &&
+        isValidString(request.resource.data.content, 2000);
+      allow update: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likedBy'])
+      );
+      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // ═══════════════════ الرسائل — collectionGroup (للمشرف: استعلام العقود) ═══════════════════
+    match /{path=**}/messages/{messageId} {
+      allow read: if isAdmin();
+    }
+    
+    // ═══════════════════ التقييمات (Reviews) ═══════════════════
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && 
+        request.resource.data.reviewerId == request.auth.uid &&
+        request.resource.data.reviewerId != request.resource.data.freelancerId &&
+        request.resource.data.rating >= 1 && request.resource.data.rating <= 5 &&
+        (!('comment' in request.resource.data) || isValidString(request.resource.data.comment, 1000));
+      allow update: if isOwner(resource.data.reviewerId);
+      allow delete: if isOwner(resource.data.reviewerId) || isAdmin();
+    }
+
+    // ═══════════════════ حارس التقييم المكرر (Ratings Guard) ═══════════════════
+    match /ratings/{ratingId} {
+      allow read: if true;
+      allow create, update: if isAuthenticated() && 
+        request.resource.data.reviewerId == request.auth.uid;
+    }
+
+
+    // ═══════════════════ الوظائف (Jobs) ═══════════════════
+    match /jobs/{jobId} {
+      allow read: if true;
+      allow create: if isOwner(request.resource.data.clientId) &&
+        isValidString(request.resource.data.title, 200) &&
+        isValidString(request.resource.data.description, 5000);
+      allow update: if isAuthenticated() && (
+         isOwner(resource.data.clientId) ||
+         // Freelancer المعيّن يمكنه تحديث المراحل فقط
+         (request.auth.uid == resource.data.assignedFreelancerId && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['milestones', 'status', 'updatedAt'])) ||
+         // أي مستخدم مصادق يضيف عرض → فقط عداد العروض
+         (!isOwner(resource.data.clientId) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['proposalsCount', 'updatedAt'])) ||
+         isAdmin()
+      );
+      allow delete: if isOwner(resource.data.clientId) || isAdmin();
+    }
+
+    // ═══════════════════ العروض (Proposals) ═══════════════════
+    match /proposals/{proposalId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && 
+        request.resource.data.freelancerId == request.auth.uid &&
+        isValidString(request.resource.data.coverLetter, 2000);
+      allow update: if isAuthenticated() && (
+        resource.data.freelancerId == request.auth.uid ||
+        // صاحب الوظيفة يمكنه تغيير الحالة فقط
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
+      );
+      allow delete: if isOwner(resource.data.freelancerId);
+    }
+
+    // ═══════════════════ العروض — collectionGroup ═══════════════════
+    match /{path=**}/proposals/{proposalId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && 
+        request.resource.data.freelancerId == request.auth.uid &&
+        isValidString(request.resource.data.coverLetter, 2000);
+      allow update: if isAuthenticated() && (
+        resource.data.freelancerId == request.auth.uid ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
+      );
+      allow delete: if isOwner(resource.data.freelancerId);
+    }
+
+    // ═══════════════════ المجموعات (Squads) ═══════════════════
+    match /squads/{squadId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && 
+        request.resource.data.leaderId == request.auth.uid;
+      allow update: if isAuthenticated() && (
+        isOwner(resource.data.leaderId) || 
+        // أعضاء الفريق يمكنهم تحديث الحقول المحدودة
+        (request.auth.uid in resource.data.memberIds && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberIds', 'completedJobs', 'rating'])) ||
+        // أي مستخدم يمكنه الانضمام
+        (!isOwner(resource.data.leaderId) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberIds', 'completedJobs', 'rating'])) ||
+        isAdmin()
+      );
+      allow delete: if isOwner(resource.data.leaderId) || isAdmin();
+    }
+    
+    // ═══════════════════ المحادثات (Chats) ═══════════════════
+    match /chats/{chatId} {
+      allow read: if isAuthenticated() && (request.auth.uid in resource.data.participants || isAdmin());
+      allow create: if isAuthenticated() && 
+        request.auth.uid in request.resource.data.participants &&
+        request.resource.data.participants.size() == 2; 
+      allow update: if isAuthenticated() && request.auth.uid in resource.data.participants;
+      
+      match /messages/{messageId} {
+        allow read: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants;
+        allow create: if isAuthenticated() && 
+          request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants && 
+          request.resource.data.senderId == request.auth.uid &&
+          // منع الرسائل الطويلة جداً
+          (
+            !('content' in request.resource.data) || 
+            request.resource.data.content.size() <= 5000
+          );
+        allow update: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants && (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['contractStatus', 'contractDetails', 'contractPrice', 'cancelRequesterId', 'jobId', 'isRead']) ||
+          (resource.data.senderId == request.auth.uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['content', 'isEdited']))
+        );
+        allow delete: if isAuthenticated() && (
+          resource.data.senderId == request.auth.uid ||
+          isAdmin()
+        );
+      }
+    }
+    
+    // ═══════════════════ الإشعارات (Notifications) ═══════════════════
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      // أي مستخدم مسجل يمكنه إنشاء إشعار — مع تحديد الحجم
+      allow create: if isAuthenticated() && 
+        isValidString(request.resource.data.title, 200) &&
+        isValidString(request.resource.data.message, 500); 
+      allow update: if isOwner(resource.data.userId) && 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isRead']);
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+    
+    // ═══════════════════ البلاغات (Reports) ═══════════════════
+    match /reports/{reportId} {
+      allow create: if isAuthenticated() && 
+        request.resource.data.reporterId == request.auth.uid &&
+        isValidString(request.resource.data.reason, 2000);
+      allow read: if isAuthenticated() && (isOwner(resource.data.reporterId) || isAdmin());
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+    
+    
+    // ═══════════════════ المدفوعات (Payments) ═══════════════════
+    match /payments/{paymentId} {
+      allow read: if isAuthenticated() && (resource.data.clientId == request.auth.uid || resource.data.freelancerId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && request.resource.data.clientId == request.auth.uid;
+      allow update: if isAuthenticated() && (resource.data.clientId == request.auth.uid || resource.data.freelancerId == request.auth.uid);
+    }
+    
+    // ═══════════════════ الطلبات (Requests) ═══════════════════
+    match /requests/{requestId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && 
+        request.resource.data.clientId == request.auth.uid &&
+        isValidString(request.resource.data.text, 5000) &&
+        // Limit images to max 3
+        (!('imageUrls' in request.resource.data) || request.resource.data.imageUrls.size() <= 3);
+      allow update: if isAuthenticated() && (
+        isOwner(resource.data.clientId) || 
+        // السماح بتحديث عداد العروض فقط لغير المالك
+        (!isOwner(resource.data.clientId) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['offersCount', 'updatedAt'])) ||
+        isAdmin()
+      );
+      allow delete: if isAuthenticated() && (isOwner(resource.data.clientId) || isAdmin());
+      
+      // العروض المقدمة على الطلب
+      match /offers/{offerId} {
+        allow read: if isAuthenticated() && (
+          resource.data.providerId == request.auth.uid || 
+          get(/databases/$(database)/documents/requests/$(requestId)).data.clientId == request.auth.uid ||
+          isAdmin()
+        );
+        allow create: if isAuthenticated() && request.resource.data.providerId == request.auth.uid;
+        allow update, delete: if isAuthenticated() && (resource.data.providerId == request.auth.uid || isAdmin());
+      }
+    }
+    
+    // ═══════════════════ إعدادات التطبيق (App Config) ═══════════════════
+    match /app_config/{configId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ═══════════════════ الإعدادات العامة (Settings) ═══════════════════
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ═══════════════════ الأجهزة المحظورة ═══════════════════
+    match /banned_devices/{deviceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ═══════════════════ سجلات التواصل (Contact Logs) ═══════════════════
+    match /contactLogs/{logId} {
+      allow read: if isAuthenticated() && (
+        resource.data.contacterId == request.auth.uid || 
+        resource.data.freelancerId == request.auth.uid
+      );
+      allow create: if isAuthenticated() && 
+        request.resource.data.contacterId == request.auth.uid;
+      allow update: if isAuthenticated() && 
+        resource.data.contacterId == request.auth.uid &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['hasReviewed', 'reviewedAt']);
+    }
+    
+
+    // ═══════════════════ طلبات الحذف ═══════════════════
+    match /deletion_requests/{requestId} {
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      allow read: if isAdmin() || isOwner(resource.data.userId);
+      allow update, delete: if isAdmin();
+    }
+
+    // ═══════════════════ طلبات التوثيق (Verification Requests) ═══════════════════
+    match /verification_requests/{requestId} {
+      allow read: if isAuthenticated() && (
+        (request.auth.uid == resource.data.userId) ||
+        isAdmin()
+      );
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.userId &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.submittedData is map &&
+        request.resource.data.createdAt is timestamp;
+      allow update: if isAdmin() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'reviewedAt']) &&
+        request.resource.data.status in ['approved', 'rejected'] &&
+        request.resource.data.reviewedAt is timestamp;
+      allow delete: if isAdmin();
+    }
+
+
+    // ═══════════════════ القصص (Stories) ═══════════════════
+    match /stories/{storyId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      // السماح للمالك بالحذف + أي مستخدم مصادق يمكنه إضافة نفسه كمشاهد
+      allow update: if isAuthenticated() && (
+        isOwner(resource.data.userId) || 
+        // السماح لأي مستخدم بتسجيل نفسه كمشاهد فقط
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['viewers'])
+      );
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+
+    // ═══════════════════ سجل الأخطاء (System Errors) ═══════════════════
+    match /system_errors/{errorId} {
+      allow create: if isAuthenticated();
+      allow read: if isAdmin();
+    }
+
+    // ═══════════════════ الإعلانات (Ads) ═══════════════════
+    match /ads/{adId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || 
+        (isAuthenticated() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['impressions', 'clicks']));
+    }
+
+    // ═══════════════════ الترويجات (Promotions) ═══════════════════
+    match /promotions/{promoId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ═══════════════════ فرق العمل (Squads — duplicate removed, unified above) ═══════════════════
+    // (Covered in the squads section above)
+  }
+}

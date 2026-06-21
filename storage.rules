@@ -1,0 +1,146 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper function
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Content type helpers
+    function isImageFile() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isVideoFile() {
+      return request.resource.contentType.matches('video/.*');
+    }
+
+    function isAllowedDocFile() {
+      return request.resource.contentType.matches('image/.*')
+          || request.resource.contentType.matches('application/pdf')
+          || request.resource.contentType.matches('application/msword')
+          || request.resource.contentType.matches('application/vnd\\.openxmlformats.*');
+    }
+
+    // User profile images
+    match /users/profile/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) && 
+        request.resource.size < 5 * 1024 * 1024 && // Max 5MB
+        isImageFile();
+    }
+
+    // User cover images
+    match /users/{userId}/cover/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) && 
+        request.resource.size < 5 * 1024 * 1024 && // Max 5MB
+        isImageFile();
+    }
+
+    // User portfolio images — now validates content type (was missing)
+    match /users/portfolio/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) && 
+        request.resource.size < 20 * 1024 * 1024 && // Max 20MB for portfolio
+        (isImageFile() || isAllowedDocFile());
+    }
+    
+    match /users/portfolio_videos/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) && 
+        request.resource.size < 50 * 1024 * 1024 && // Max 50MB for videos
+        isVideoFile();
+    }
+
+    // User verification files — now validates content type
+    match /users/verifications/{userId}/{allPaths=**} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId) && 
+        request.resource.size < 10 * 1024 * 1024 &&
+        (isImageFile() || isAllowedDocFile());
+    }
+
+    // Job attachments — now validates content type
+    match /jobs/{jobId}/{allPaths=**} {
+      // Authenticated users can read job attachments
+      allow read: if isAuthenticated();
+      
+      // Anyone authenticated can upload (job owner verified in Firestore rules)
+      allow write: if isAuthenticated() && 
+        request.resource.size < 10 * 1024 * 1024 && // Max 10MB
+        (isImageFile() || isAllowedDocFile());
+    }
+
+    // Squads images
+    match /squads/{squadId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() && 
+        request.resource.size < 5 * 1024 * 1024 && // Max 5MB
+        isImageFile();
+    }
+
+    // Request attachments
+    match /requests/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) && 
+        request.resource.size < 15 * 1024 * 1024 &&
+        (isImageFile() || request.resource.contentType.matches('audio/.*') || request.resource.contentType.matches('application/octet-stream'));
+    }
+
+    function isAudioFile() {
+      return request.resource.contentType.matches('audio/.*');
+    }
+
+    function isAllowedChatFile() {
+      return isImageFile()
+          || isVideoFile()
+          || isAudioFile()
+          || request.resource.contentType.matches('application/pdf')
+          || request.resource.contentType.matches('application/msword')
+          || request.resource.contentType.matches('application/vnd\\.openxmlformats.*')
+          || request.resource.contentType.matches('application/octet-stream')
+          || request.resource.contentType.matches('text/.*');
+    }
+
+    // Chat attachments — allows images, videos, audio (voice messages), and documents
+    match /chats/{chatId}/{allPaths=**} {
+      // Read only requires authentication (no resource check needed)
+      allow read: if isAuthenticated();
+      // Write validates size and content type
+      allow write: if isAuthenticated() && 
+        request.resource.size < 25 * 1024 * 1024 && // Max 25MB
+        isAllowedChatFile();
+    }
+
+    // Posts attachments
+    match /posts/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) && 
+        request.resource.size < 10 * 1024 * 1024 &&
+        isImageFile();
+    }
+
+    // Payment receipts
+    match /payments/{paymentId}/{allPaths=**} {
+      // Authenticated users can read
+      allow read: if isAuthenticated();
+      
+      // Authenticated users can upload receipts
+      allow write: if isAuthenticated() && 
+        request.resource.size < 5 * 1024 * 1024 && // Max 5MB
+        isImageFile();
+    }
+
+    // Ads images
+    match /ads/{userId}/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+

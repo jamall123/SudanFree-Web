@@ -1,0 +1,92 @@
+{
+  "project_info": {
+    "project_number": "233114260",
+    "project_id": "sudanfree-d04fc",
+    "storage_bucket": "sudanfree-d04fc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233114260:android:6072e0d3914aa8a1620281",
+        "android_client_info": {
+          "package_name": "com.example.sudan_free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233114260-kiq6f28a4be146rukad853c8n68mfa96.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sudan_free",
+            "certificate_hash": "6671b0b2f7e1264eeb02934a2764ad495d6519af"
+          }
+        },
+        {
+          "client_id": "233114260-kht4nnnsp9icmnmbsb87pp7fjvf93ike.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGdUP0ZJhFlXfmTSP4S-AvM5WMCOdih4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233114260-kht4nnnsp9icmnmbsb87pp7fjvf93ike.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233114260:android:3da75a538ebd6627620281",
+        "android_client_info": {
+          "package_name": "com.sudanfree.sudan_free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233114260-8002gddisfnnod5pgs6ba45hbdnag9ss.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sudanfree.sudan_free",
+            "certificate_hash": "6671b0b2f7e1264eeb02934a2764ad495d6519af"
+          }
+        },
+        {
+          "client_id": "233114260-mhq1j18uoaaqk61cgc8422492etppre1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sudanfree.sudan_free",
+            "certificate_hash": "b785df669bb36a08e7f47c21c0adfbf14bf398f9"
+          }
+        },
+        {
+          "client_id": "233114260-kht4nnnsp9icmnmbsb87pp7fjvf93ike.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGdUP0ZJhFlXfmTSP4S-AvM5WMCOdih4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233114260-kht4nnnsp9icmnmbsb87pp7fjvf93ike.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
