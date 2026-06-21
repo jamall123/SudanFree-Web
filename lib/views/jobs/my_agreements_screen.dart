@@ -151,7 +151,8 @@ class _MyAgreementsScreenState extends State<MyAgreementsScreen>
         },
       ),
      ),
-    );
+    ),
+   );
   }
 
   Widget _buildJobList(
