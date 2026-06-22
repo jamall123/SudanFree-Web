@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
 import 'package:universal_io/io.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -622,7 +623,7 @@ class _IdentityVerificationScreenState
               radius: 60,
               backgroundColor: AppColors.primary.withValues(alpha: 0.1),
               backgroundImage:
-                  _personalPhoto != null ? FileImage(_personalPhoto!) : null,
+                  _personalPhoto != null ? (kIsWeb ? NetworkImage(_personalPhoto!.path) : FileImage(_personalPhoto!) as ImageProvider) : null,
               child: _personalPhoto == null
                   ? const Icon(Icons.camera_alt,
                       size: 40, color: AppColors.primary)
@@ -662,7 +663,8 @@ class _IdentityVerificationScreenState
           if (_idCardPhoto != null)
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.file(_idCardPhoto!,
+              child: kIsWeb ? Image.network(_idCardPhoto!.path,
+                  height: 150, width: double.infinity, fit: BoxFit.cover) : Image.file(_idCardPhoto!,
                   height: 150, width: double.infinity, fit: BoxFit.cover),
             ),
           const SizedBox(height: 12),

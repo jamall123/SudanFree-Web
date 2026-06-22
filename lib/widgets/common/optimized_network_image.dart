@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../services/cloudinary_service.dart';
@@ -51,16 +52,32 @@ class OptimizedNetworkImage extends StatelessWidget {
       quality: 'auto',
     );
 
-    Widget imageWidget = CachedNetworkImage(
-      imageUrl: optimizedUrl,
-      width: width,
-      height: height,
-      fit: fit,
-      memCacheWidth: memCacheWidth, // منع استهلاك الرام بصور كبيرة
-      fadeInDuration: const Duration(milliseconds: 300), // FadeIn animation سلس
-      placeholder: (context, url) => _buildPlaceholder(),
-      errorWidget: (context, url, error) => const Icon(Icons.broken_image, color: Colors.grey),
-    );
+    Widget imageWidget;
+    
+    if (kIsWeb) {
+      imageWidget = Image.network(
+        optimizedUrl,
+        width: width,
+        height: height,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, color: Colors.grey),
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return _buildPlaceholder();
+        },
+      );
+    } else {
+      imageWidget = CachedNetworkImage(
+        imageUrl: optimizedUrl,
+        width: width,
+        height: height,
+        fit: fit,
+        memCacheWidth: memCacheWidth, // منع استهلاك الرام بصور كبيرة
+        fadeInDuration: const Duration(milliseconds: 300), // FadeIn animation سلس
+        placeholder: (context, url) => _buildPlaceholder(),
+        errorWidget: (context, url, error) => const Icon(Icons.broken_image, color: Colors.grey),
+      );
+    }
 
     if (borderRadius != null) {
       imageWidget = ClipRRect(

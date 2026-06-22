@@ -1,4 +1,5 @@
 import 'package:universal_io/io.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -185,12 +186,19 @@ class _PostCardState extends State<PostCard> with TickerProviderStateMixin {
 
     if (url.startsWith('/')) {
       // Local pending file
-      image = Image.file(
-        File(url),
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: height,
-      );
+      image = kIsWeb
+          ? Image.network(
+              url,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: height,
+            )
+          : Image.file(
+              File(url),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: height,
+            );
     } else {
       // Network file
       final detailUrl =

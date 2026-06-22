@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import '../../widgets/common/optimized_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -201,13 +203,9 @@ class _ShopProfileScreenState extends State<ShopProfileScreen>
                                       child: user.coverImageUrl != null
                                           ? Hero(
                                               tag: '${user.id}_cover',
-                                              child: CachedNetworkImage(
+                                              child: OptimizedNetworkImage(
                                                 imageUrl: user.coverImageUrl!,
                                                 fit: BoxFit.cover,
-                                                placeholder: (_, __) =>
-                                                    Container(
-                                                        color:
-                                                            Colors.grey[300]),
                                               ),
                                             )
                                           : Container(
@@ -283,7 +281,7 @@ class _ShopProfileScreenState extends State<ShopProfileScreen>
                                                       radius: 65,
                                                       backgroundColor: Theme.of(context).cardColor,
                                                       backgroundImage: user.profileImageUrl != null
-                                                          ? CachedNetworkImageProvider(user.profileImageUrl!)
+                                                          ? (kIsWeb ? NetworkImage(user.profileImageUrl!) as ImageProvider : CachedNetworkImageProvider(user.profileImageUrl!))
                                                           : null,
                                                       child: user.profileImageUrl == null
                                                           ? const Icon(Icons.store, size: 50, color: Colors.grey)

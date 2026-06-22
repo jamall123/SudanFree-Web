@@ -1,4 +1,5 @@
 import 'package:universal_io/io.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
@@ -26,7 +27,7 @@ class StorageService {
 
       // ضغط الصورة محلياً إذا كانت كبيرة لتوفير البيانات وتسريع الرفع
       File fileToUpload = imageFile;
-      if (ext == '.jpg' || ext == '.jpeg' || ext == '.png' || ext == '.webp') {
+      if (!kIsWeb && (ext == '.jpg' || ext == '.jpeg' || ext == '.png' || ext == '.webp')) {
         if (await ImageCompressService.needsCompression(imageFile,
             maxSizeKB: 300)) {
           debugPrint('StorageService: compressing image before upload...');
@@ -34,12 +35,24 @@ class StorageService {
         }
       }
 
-      final task = await ref.putFile(
-        fileToUpload,
-        SettableMetadata(contentType: _contentType(ext)),
-      );
+      UploadTask task;
+      if (kIsWeb) {
+        // على الويب، يجب استخدام putData لأن putFile غير مدعوم
+        // XFile يستطيع قراءة الـ blob URL بأمان
+        final xfile = XFile(fileToUpload.path);
+        final bytes = await xfile.readAsBytes();
+        task = ref.putData(
+          bytes,
+          SettableMetadata(contentType: _contentType(ext)),
+        );
+      } else {
+        task = ref.putFile(
+          fileToUpload,
+          SettableMetadata(contentType: _contentType(ext)),
+        );
+      }
 
-      final url = await task.ref.getDownloadURL();
+      final url = await task.then((s) => s.ref.getDownloadURL());
       debugPrint('StorageService: ✅ success → $url');
       return url;
     } catch (e) {

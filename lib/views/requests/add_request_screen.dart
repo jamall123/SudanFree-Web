@@ -1,4 +1,5 @@
 import 'package:universal_io/io.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -314,6 +315,21 @@ class _AddRequestBottomSheetState extends State<AddRequestBottomSheet> {
         'color': Colors.teal,
       },
       {
+        'value': locale == 'ar' ? 'مركبات وسيارات' : 'Vehicles & Cars',
+        'icon': Icons.directions_car_outlined,
+        'color': Colors.red,
+      },
+      {
+        'value': locale == 'ar' ? 'إلكترونيات وأجهزة' : 'Electronics & Devices',
+        'icon': Icons.devices_outlined,
+        'color': Colors.indigo,
+      },
+      {
+        'value': locale == 'ar' ? 'ملابس وأزياء' : 'Clothes & Fashion',
+        'icon': Icons.checkroom_outlined,
+        'color': Colors.pink,
+      },
+      {
         'value': locale == 'ar' ? 'خدمات أخرى' : 'Other Services',
         'icon': Icons.miscellaneous_services_outlined,
         'color': Colors.grey,
@@ -546,12 +562,19 @@ class _AddRequestBottomSheetState extends State<AddRequestBottomSheet> {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: Image.file(
-                                    entry.value,
-                                    width: 110,
-                                    height: 110,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child: kIsWeb
+                                      ? Image.network(
+                                          entry.value.path,
+                                          width: 110,
+                                          height: 110,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.file(
+                                          entry.value,
+                                          width: 110,
+                                          height: 110,
+                                          fit: BoxFit.cover,
+                                        ),
                                 ),
                                 Positioned(
                                   top: 4,

@@ -1,4 +1,5 @@
 import 'package:universal_io/io.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -34,25 +35,27 @@ class CloudinaryService {
 
     // ✅ ضغط الصورة قبل الرفع
     File fileToUpload = imageFile;
-    try {
-      final dir = await getTemporaryDirectory();
-      final targetPath = p.join(
-          dir.path, '${DateTime.now().millisecondsSinceEpoch}_compressed.jpg');
-      
-      final compressedFile = await FlutterImageCompress.compressAndGetFile(
-        imageFile.absolute.path,
-        targetPath,
-        quality: 70,
-        minWidth: 1080,
-        format: CompressFormat.jpeg,
-      );
-      
-      if (compressedFile != null) {
-        fileToUpload = File(compressedFile.path);
-        debugPrint('Cloudinary: تم الضغط بنجاح. الحجم قبل: ${await imageFile.length()} -> الحجم بعد: ${await fileToUpload.length()}');
+    if (!kIsWeb) {
+      try {
+        final dir = await getTemporaryDirectory();
+        final targetPath = p.join(
+            dir.path, '${DateTime.now().millisecondsSinceEpoch}_compressed.jpg');
+        
+        final compressedFile = await FlutterImageCompress.compressAndGetFile(
+          imageFile.absolute.path,
+          targetPath,
+          quality: 70,
+          minWidth: 1080,
+          format: CompressFormat.jpeg,
+        );
+        
+        if (compressedFile != null) {
+          fileToUpload = File(compressedFile.path);
+          debugPrint('Cloudinary: تم الضغط بنجاح. الحجم قبل: ${await imageFile.length()} -> الحجم بعد: ${await fileToUpload.length()}');
+        }
+      } catch (e) {
+        debugPrint('Cloudinary: خطأ أثناء ضغط الصورة، سيتم رفع الأصلية. الخطأ: $e');
       }
-    } catch (e) {
-      debugPrint('Cloudinary: خطأ أثناء ضغط الصورة، سيتم رفع الأصلية. الخطأ: $e');
     }
 
     final signatureData = await _getSignature(targetFolder);
@@ -74,9 +77,17 @@ class CloudinaryService {
         request.fields['signature'] = signatureData['signature'];
         request.fields['folder'] = signatureData['folder'];
 
-        request.files.add(
-          await http.MultipartFile.fromPath('file', fileToUpload.path),
-        );
+        if (kIsWeb) {
+          final xfile = XFile(fileToUpload.path);
+          final bytes = await xfile.readAsBytes();
+          request.files.add(
+            http.MultipartFile.fromBytes('file', bytes, filename: 'upload.jpg'),
+          );
+        } else {
+          request.files.add(
+            await http.MultipartFile.fromPath('file', fileToUpload.path),
+          );
+        }
 
         final streamedResponse =
             await request.send().timeout(const Duration(seconds: 60));
@@ -125,9 +136,17 @@ class CloudinaryService {
         request.fields['signature'] = signatureData['signature'];
         request.fields['folder'] = signatureData['folder'];
 
-        request.files.add(
-          await http.MultipartFile.fromPath('file', videoFile.path),
-        );
+        if (kIsWeb) {
+          final xfile = XFile(videoFile.path);
+          final bytes = await xfile.readAsBytes();
+          request.files.add(
+            http.MultipartFile.fromBytes('file', bytes, filename: 'upload.mp4'),
+          );
+        } else {
+          request.files.add(
+            await http.MultipartFile.fromPath('file', videoFile.path),
+          );
+        }
 
         final streamedResponse =
             await request.send().timeout(const Duration(seconds: 120));
@@ -165,12 +184,19 @@ class CloudinaryService {
     // عدم تطبيق تحسينات الصور على الفيديوهات
     if (url.contains('/video/')) return url;
 
-    // 1. استبدال أي إعدادات قديمة تسبب تجمداً بصيغة WebP المدعومة كلياً
-    String optimized = url.replaceAll('f_auto', 'f_webp').replaceAll('f_avif', 'f_webp');
+    // 1. استبدال أي إعدادات قديمة تسبب تجمداً
+    String optimized = url;
+    if (kIsWeb) {
+      optimized = optimized.replaceAll('f_auto', 'f_jpg')
+                           .replaceAll('f_avif', 'f_jpg')
+                           .replaceAll('f_webp', 'f_jpg');
+    } else {
+      optimized = optimized.replaceAll('f_auto', 'f_webp')
+                           .replaceAll('f_avif', 'f_webp');
+    }
 
-    // إذا كان الرابط يحتوي مسبقاً على تحسينات (مثل q_auto أو f_webp)، نكتفي بذلك
-    // لكي لا تتكرر معاملات التحويل في الرابط وتسبب خطأ
-    if (optimized.contains('q_') || optimized.contains('f_webp')) {
+    // إذا كان الرابط يحتوي مسبقاً على تحسينات
+    if (optimized.contains('q_') || optimized.contains(kIsWeb ? 'f_jpg' : 'f_webp')) {
       return optimized;
     }
 
@@ -186,7 +212,13 @@ class CloudinaryService {
       if (height != null) transformations.add('h_$height');
       if (width != null || height != null) transformations.add('c_limit');
       transformations.add('q_$quality');
-      transformations.add('f_webp'); 
+      
+      // Use JPG instead of WebP to prevent EncodingError in Flutter Web (CanvasKit)
+      if (kIsWeb) {
+        transformations.add('f_jpg');
+      } else {
+        transformations.add('f_webp'); 
+      }
       if (extraTransformations != null) {
         transformations.addAll(extraTransformations);
       }

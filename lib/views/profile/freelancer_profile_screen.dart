@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../widgets/common/optimized_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../providers/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -393,14 +395,10 @@ class _FreelancerProfileScreenState extends State<FreelancerProfileScreen>
                                         child: user.coverImageUrl != null
                                             ? Hero(
                                                 tag: '${user.id}_cover',
-                                                child: CachedNetworkImage(
-                                                  imageUrl: user.coverImageUrl!,
-                                                  fit: BoxFit.cover,
-                                                  placeholder: (_, __) =>
-                                                      Container(
-                                                          color:
-                                                              Colors.grey[300]),
-                                                ),
+                                              child: OptimizedNetworkImage(
+                                                imageUrl: user.coverImageUrl!,
+                                                fit: BoxFit.cover,
+                                              ),
                                               )
                                             : Container(
                                                 decoration: BoxDecoration(
@@ -472,8 +470,8 @@ class _FreelancerProfileScreenState extends State<FreelancerProfileScreen>
                                                     backgroundImage: user
                                                                 .profileImageUrl !=
                                                             null
-                                                        ? CachedNetworkImageProvider(
-                                                            user.profileImageUrl!)
+                                                        ? (kIsWeb ? NetworkImage(user.profileImageUrl!) as ImageProvider : CachedNetworkImageProvider(
+                                                            user.profileImageUrl!))
                                                         : null,
                                                     child:
                                                         user.profileImageUrl ==

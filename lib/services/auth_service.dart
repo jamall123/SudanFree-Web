@@ -17,6 +17,11 @@ class AuthService {
   // Sign in with Google
   Future<UserCredential?> signInWithGoogle() async {
     try {
+      if (kIsWeb) {
+        final GoogleAuthProvider googleProvider = GoogleAuthProvider();
+        return await _auth.signInWithPopup(googleProvider);
+      }
+
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return null; // User cancelled
@@ -42,6 +47,11 @@ class AuthService {
   // Sign in with Facebook
   Future<UserCredential?> signInWithFacebook() async {
     try {
+      if (kIsWeb) {
+        final FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+        return await _auth.signInWithPopup(facebookProvider);
+      }
+
       final LoginResult result = await FacebookAuth.instance.login(
         permissions: ['email', 'public_profile'],
       );

@@ -1,4 +1,5 @@
 import 'package:universal_io/io.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -1236,7 +1237,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.file(file, fit: BoxFit.cover),
+        kIsWeb ? Image.network(file.path, fit: BoxFit.cover) : Image.file(file, fit: BoxFit.cover),
         Positioned(
           top: 4,
           right: 4,

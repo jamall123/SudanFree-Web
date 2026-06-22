@@ -1,4 +1,5 @@
 import 'package:universal_io/io.dart';
+import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -238,7 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     radius: 65,
                     backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                     backgroundImage: user.profileImageUrl != null
-                        ? CachedNetworkImageProvider(user.profileImageUrl!)
+                        ? (kIsWeb ? NetworkImage(user.profileImageUrl!) as ImageProvider : CachedNetworkImageProvider(user.profileImageUrl!))
                         : null,
                     child: _isUploadingImage
                         ? const CircularProgressIndicator()

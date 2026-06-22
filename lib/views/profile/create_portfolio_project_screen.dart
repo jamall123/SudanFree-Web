@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:universal_io/io.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -839,7 +840,7 @@ class _CreatePortfolioProjectScreenState
                                   borderRadius: BorderRadius.circular(14),
                                   child: isExisting
                                     ? CachedNetworkImage(imageUrl: imageUrl!, fit: BoxFit.cover)
-                                    : Image.file(localFile!, fit: BoxFit.cover),
+                                    : (kIsWeb ? Image.network(localFile!.path, fit: BoxFit.cover) : Image.file(localFile!, fit: BoxFit.cover)),
                                 ),
                               ),
                               Positioned(

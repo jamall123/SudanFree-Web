@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/constants/app_colors.dart';
@@ -177,10 +178,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
                   child: Container(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.black.withValues(alpha: 0.3)
-                        : Colors.white.withValues(alpha: 0.3),
                     decoration: BoxDecoration(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.black.withValues(alpha: 0.3)
+                          : Colors.white.withValues(alpha: 0.3),
                       border: Border(
                         bottom: BorderSide(
                           color: Colors.white.withValues(alpha: 0.1),
@@ -245,11 +246,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           .primary
                           .withValues(alpha: 0.1),
                       backgroundImage: currentUser.profileImageUrl != null
-                          ? CachedNetworkImageProvider(
-                              CloudinaryService.getOptimizedUrl(
-                                  currentUser.profileImageUrl!,
-                                  width: 100,
-                                  quality: 'auto'))
+                          ? (kIsWeb 
+                              ? NetworkImage(CloudinaryService.getOptimizedUrl(currentUser.profileImageUrl!, width: 100, quality: 'auto')) as ImageProvider
+                              : CachedNetworkImageProvider(
+                                  CloudinaryService.getOptimizedUrl(
+                                      currentUser.profileImageUrl!,
+                                      width: 100,
+                                      quality: 'auto')))
                           : null,
                       child: currentUser.profileImageUrl == null
                           ? const Icon(Icons.person,
@@ -517,12 +520,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       borderRadius: BorderRadius.circular(16),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        child: CachedNetworkImage(
+                        child: OptimizedNetworkImage(
                           imageUrl: _stripAds[0].mediaUrl,
                           height: 100,
                           width: double.infinity,
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(color: Colors.grey[300]),
                         ),
                       ),
                     ),
@@ -629,7 +631,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }
     return SizedBox(
-      height: 170, // ✅ Increased height slightly to accommodate the distinctive layout
+      height: 190, // ✅ Increased height slightly to accommodate the distinctive layout and prevent overflow
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 12),

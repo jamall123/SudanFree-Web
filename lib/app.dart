@@ -186,30 +186,44 @@ class _SudanFreeAppState extends State<SudanFreeApp> with WidgetsBindingObserver
                 UpdateService.checkForUpdate(context);
               });
               
-              return ConnectivityWrapper(
+              Widget appContent = ConnectivityWrapper(
                 child: Stack(
                   children: [
                     if (child != null) child,
-                  if (localeProvider.isLoading)
-                    Container(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const LoadingIndicator(size: 60),
-                          const SizedBox(height: 24),
-                          Text(
-                            localeProvider.isArabic 
-                                ? 'جاري تغيير اللغة...' 
-                                : 'Changing Language...',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                        ],
+                    if (localeProvider.isLoading)
+                      Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const LoadingIndicator(size: 60),
+                            const SizedBox(height: 24),
+                            Text(
+                              localeProvider.isArabic 
+                                  ? 'جاري تغيير اللغة...' 
+                                  : 'Changing Language...',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
                   ],
+                ),
+              );
+
+              return Container(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? const Color(0xFF0F172A) // Dark background for empty space
+                    : const Color(0xFFE2E8F0), // Light background for empty space
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 550),
+                    child: ClipRect(
+                      child: appContent,
+                    ),
+                  ),
                 ),
               );
             },

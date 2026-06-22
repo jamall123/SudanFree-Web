@@ -1,4 +1,5 @@
 import 'package:universal_io/io.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -291,7 +292,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12)),
                             clipBehavior: Clip.hardEdge,
-                            child: Image.file(entry.value, fit: BoxFit.cover),
+                            child: kIsWeb ? Image.network(entry.value.path, fit: BoxFit.cover) : Image.file(entry.value, fit: BoxFit.cover),
                           ),
                           Positioned(
                             top: 2,
