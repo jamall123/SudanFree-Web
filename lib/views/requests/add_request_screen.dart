@@ -288,51 +288,52 @@ class _AddRequestBottomSheetState extends State<AddRequestBottomSheet> {
   List<Map<String, dynamic>> _getCategories(String locale) {
     return [
       {
-        'value': locale == 'ar'
-            ? 'صيانة منزلية (سباكة، كهرباء، الخ)'
-            : 'Home Maintenance (Plumbing, Electrical, etc.)',
-        'icon': Icons.home_repair_service_outlined,
-        'color': Colors.orange,
-      },
-      {
-        'value': locale == 'ar' ? 'تقنية وبرمجة' : 'Tech & Programming',
-        'icon': Icons.code_outlined,
-        'color': Colors.blue,
-      },
-      {
-        'value': locale == 'ar' ? 'تصميم ومونتاج' : 'Design & Editing',
-        'icon': Icons.design_services_outlined,
-        'color': Colors.purple,
-      },
-      {
-        'value': locale == 'ar' ? 'بناء ومقاولات' : 'Construction',
-        'icon': Icons.construction_outlined,
-        'color': Colors.brown,
-      },
-      {
-        'value': locale == 'ar' ? 'نقل وترحيل' : 'Moving & Transport',
-        'icon': Icons.local_shipping_outlined,
-        'color': Colors.teal,
-      },
-      {
-        'value': locale == 'ar' ? 'مركبات وسيارات' : 'Vehicles & Cars',
+        'key': 'Cars',
+        'label': locale == 'ar' ? 'سيارات' : 'Cars',
         'icon': Icons.directions_car_outlined,
         'color': Colors.red,
       },
       {
-        'value': locale == 'ar' ? 'إلكترونيات وأجهزة' : 'Electronics & Devices',
+        'key': 'Real Estate',
+        'label': locale == 'ar' ? 'عقارات' : 'Real Estate',
+        'icon': Icons.home_work_outlined,
+        'color': Colors.blue,
+      },
+      {
+        'key': 'Electronics',
+        'label': locale == 'ar' ? 'إلكترونيات' : 'Electronics',
         'icon': Icons.devices_outlined,
         'color': Colors.indigo,
       },
       {
-        'value': locale == 'ar' ? 'ملابس وأزياء' : 'Clothes & Fashion',
+        'key': 'Clothes',
+        'label': locale == 'ar' ? 'ملابس' : 'Clothes',
         'icon': Icons.checkroom_outlined,
         'color': Colors.pink,
       },
       {
-        'value': locale == 'ar' ? 'خدمات أخرى' : 'Other Services',
-        'icon': Icons.miscellaneous_services_outlined,
-        'color': Colors.grey,
+        'key': 'Services',
+        'label': locale == 'ar' ? 'خدمات' : 'Services',
+        'icon': Icons.home_repair_service_outlined,
+        'color': Colors.orange,
+      },
+      {
+        'key': 'Food',
+        'label': locale == 'ar' ? 'أطعمة' : 'Food',
+        'icon': Icons.restaurant_outlined,
+        'color': Colors.green,
+      },
+      {
+        'key': 'Construction',
+        'label': locale == 'ar' ? 'بناء ومقاولات' : 'Construction',
+        'icon': Icons.construction_outlined,
+        'color': Colors.brown,
+      },
+      {
+        'key': 'Beauty',
+        'label': locale == 'ar' ? 'تجميل' : 'Beauty',
+        'icon': Icons.face_retouching_natural,
+        'color': Colors.purple,
       },
     ];
   }
@@ -461,10 +462,10 @@ class _AddRequestBottomSheetState extends State<AddRequestBottomSheet> {
                     spacing: 8,
                     runSpacing: 10,
                     children: categories.map((cat) {
-                      final isSelected = _selectedCategory == cat['value'];
+                      final isSelected = _selectedCategory == cat['key'];
                       return GestureDetector(
                         onTap: () =>
-                            setState(() => _selectedCategory = cat['value']),
+                            setState(() => _selectedCategory = cat['key']),
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           padding: const EdgeInsets.symmetric(
@@ -494,7 +495,7 @@ class _AddRequestBottomSheetState extends State<AddRequestBottomSheet> {
                               ),
                               const SizedBox(width: 6),
                               Text(
-                                cat['value'] as String,
+                                cat['label'] as String,
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: isSelected
